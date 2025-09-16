@@ -1,0 +1,17 @@
+@main() {
+  a: int = const 3;
+  a: int = id a;
+  a: int = const 4;
+  a: int = const 4;
+  b: int = id a;
+  print b;
+  b: int = id b;
+  a: int = const 5;
+.label0:
+  two: int = const 2;
+  b: int = add a two;
+  a: int = add a two;
+  c: int = add a b;
+  print c;
+  a: int = const 3;
+}
