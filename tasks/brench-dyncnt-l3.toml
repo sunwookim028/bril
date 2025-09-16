@@ -1,0 +1,12 @@
+extract = 'total_dyn_inst: (\d+)'
+benchmarks = './*.bril'
+
+[runs.l3]
+pipeline = [
+    "bril2json",
+    "python3 lvn.py",
+    "bril2json",
+    "python3 tdce.py",
+    "bril2json",
+    "brili -p",
+]
