@@ -14,6 +14,7 @@ def eliminate_common(block):
      basic block, where (some) common subexprs are 
      eliminated.
   """
+  # Handle label and terminators.
   if 'label' in block[0]:
     yield block[0]
     block = block[1:]
@@ -22,8 +23,38 @@ def eliminate_common(block):
       block[-1]['op'] in TERMINATORS):
     term = block[-1]
     block = block[:-1]
+  # Key data structures.
+  # prev_rhs and canonical_vars share indices, 
+  # which are values of the lvn mapping.
+  lvn = {}
+  prev_rhs = [] # if binary op, always lvn1<lvn2.
+  canonical_vars = []
+  # Main loop
   for instr in block:
-    yield instr
+    if 'dest' not in instr:
+      yield instr
+    # Core logic.
+    # 1/2, Find match in the canonical tuple form.
+    hit = False
+    for i, some_prev_rhs in enumerate(prev_rhs):
+      # of the rhs of this instruction, which is
+      # a constant or a value operation.
+      if instr['op'] == 'const':
+        rhs_in_lvn = () #FIXME
+      else:
+        rhs_in_lvn = () #FIXME
+      if rhs_in_lvn == some_prev_rhs:
+        hit = True
+        break
+    # 2/2, yield instr in the correct form
+    # and update the 3 data structures.
+    if hit: # Matched
+      # TODO. update the 3 data structures
+      # index is i.
+      yield instr # FIXME. yield transformed instr
+    else:
+      # TODO. update the 3 data structures
+      yield instr
   if term:
     yield term
 
