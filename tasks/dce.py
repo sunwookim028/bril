@@ -13,11 +13,14 @@ def eliminate(block):
   eliminate trivially dead instructions, i.e. assignments
   that are overwritten before referred.
   """
-  # @@FIXME!!
-  #return block
   to_delete = set()
   yet_unused = {}
   for i, instr in enumerate(block):
+    # referenced instr gets alive 
+    if 'args' in instr:
+      for var in instr['args']:
+        if var in yet_unused:
+          del yet_unused[var]
     if 'label' in instr: continue
     if instr['op'] in TERMINATORS: continue
     if instr['op'] in SIDE_EFFECT: continue
@@ -25,11 +28,6 @@ def eliminate(block):
       to_delete.add(i)
       continue
     # all instrs that come here has a dest variable.
-    # referenced instr gets alive 
-    if 'args' in instr:
-      for var in instr['args']:
-        if var in yet_unused:
-          del yet_unused[var]
     dest = instr['dest']
     # overwritten instr is dead
     if dest in yet_unused:
