@@ -1,2 +1,15 @@
+[envs.baseline]
 command = "bril2json < {filename} | brili"
-output.out-baseline = "-"
+# output.out-baseline = "-"
+
+[envs.tdce]
+command = "bril2json < {filename} | python3 tdce.py | bril2json | brili"
+# output.out-tdce = "-"
+
+[envs.lvn]
+command = "bril2json < {filename} | python3 lvn.py | bril2json | brili"
+# output.out-tdce = "-"
+
+[envs.l3]
+command = "bril2json < {filename} | python3 lvn.py | bril2json | python3 tdce.py | bril2json | brili"
+# output.out-tdce = "-"
