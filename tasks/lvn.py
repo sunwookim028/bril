@@ -26,7 +26,7 @@ def eliminate_common(block):
   # Key data structures.
   # prev_rhs and canonical_vars share indices, 
   # which are values of the lvn mapping.
-  lvn = {}
+  var_to_lvn = {}
   prev_rhs = [] # if binary op, always lvn1<lvn2.
   canonical_vars = []
   # Main loop
