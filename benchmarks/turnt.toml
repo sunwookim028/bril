@@ -10,6 +10,6 @@ command = "bril2json < {filename} | brili {args}"
 command = "bril2json < {filename} | python3 ../tasks/lvn.py | bril2json | brili {args}"
 # output.out-tdce = "-"
 
-# [envs.l3]
-# command = "bril2json < {filename} | python3 lvn.py | bril2json | python3 tdce.py | bril2json | brili -p"
+[envs.l3]
+command = "bril2json < {filename} | python3 ../tasks/lvn.py | bril2json | python3 ../tasks/tdce.py | bril2json | brili {args}"
 # output.out-tdce = "-"
