@@ -30,13 +30,23 @@ def eliminate_common(block):
   var_to_lvn = dict()
   prev_rhs = [] # if binary op, always lvn1<lvn2.
   canonical_vars = []
-  # MAYBE TODO add read_first vars.
-  # assign Nones for prev_rhs and canon.. entries.
-  # CURRENTLY we assign the next i at discoveries.
-  read_first_lvn = -1
   # Main loop
   for instr in block:
     if 'dest' not in instr:
+      # transform only
+      if "args" in instr:
+        new_args = []
+        for arg in instr["args"]:
+          if arg not in var_to_lvn:
+            var_to_lvn[arg] = len(prev_rhs)
+            prev_rhs.append(None)
+            canonical_vars.append(None)
+          lvn = var_to_lvn[arg]
+          if canonical_vars[lvn] != None:
+            new_args.append(canonical_vars[lvn])
+          else:
+            new_args.append(arg)
+        instr["args"] = new_args
       new_block.append(instr)
       continue
     # Core logic.
@@ -55,7 +65,7 @@ def eliminate_common(block):
         args_in_lvn.append(var_to_lvn[arg])
       args_in_lvn.sort()
       if 'funcs' in instr:
-        rhs_in_lvn = ['call', instr['func']]
+        rhs_in_lvn = ['call', instr['funcs']]
       else:
         rhs_in_lvn = [instr['op']]
       if args_in_lvn:
