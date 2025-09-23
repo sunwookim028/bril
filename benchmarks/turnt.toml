@@ -1,15 +1,7 @@
-[envs.baseline]
-command = "bril2json < {filename} | brili {args}"
+[envs.reference]
+command = "bril2json < {filename} | python3 ../examples/df.py defined"
 # output.out-baseline = "-"
 
-#[envs.tdce]
-#command = "bril2json < {filename} | python3 ../tasks/tdce.py | bril2json | brili {args}"
-# output.out-tdce = "-"
-
-[envs.lvn]
-command = "bril2json < {filename} | python3 ../tasks/lvn.py | bril2json | brili {args}"
-# output.out-tdce = "-"
-
-[envs.l3]
-command = "bril2json < {filename} | python3 ../tasks/lvn.py | bril2json | python3 ../tasks/tdce.py | bril2json | brili {args}"
+[envs.ours]
+command = "bril2json < {filename} | python3 ../tasks/df.py"
 # output.out-tdce = "-"
