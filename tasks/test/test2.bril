@@ -1,4 +1,4 @@
-@main() {
+@main(ab: int, ac: int) {
   a: int = const 3;
   a: int = const 4;
   a: int = const 4;
@@ -7,7 +7,6 @@
   b: int = id b;
   print b;
   a: int = const 5;
-.label0:
   two: int = const 2;
   b: int = add a two;
   a: int = add a two;

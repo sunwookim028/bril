@@ -14,8 +14,7 @@ def defined_out(blocks, block_idx, cfg, func_args):
      Returns the set of defined vars at the exit of bb{block_idx}.
   """
   defined_vars = defined_in(block_idx, cfg, func_args)
-  for definition in definitions(blocks, block_idx, cfg, func_args):
-    defined_vars.update(definition)
+  defined_vars.update(definitions(blocks, block_idx, cfg, func_args))
   return defined_vars
 
 
@@ -25,7 +24,8 @@ def defined_in(block_idx, cfg, func_args):
      Returns the set of defined vars at the entry of bb{block_idx}.
   """
   if block_idx == 0:
-    return set(func_args)
+    return set() #FIXME just to test against the ref impl
+    #return set(func_args)
   defined_vars = set()
   for u, v in cfg:
     if v == block_idx:
@@ -46,7 +46,6 @@ def df_defined_vars(cfg, func_args, blocks): #FIXME count |V| from cfg
   # Run worklist algorithm
   worklist = set(range(len(blocks)))
   work_in = [None for _ in range(len(blocks))]
-  work_in[0] = func_arg_names
   work_out = [None for _ in range(len(blocks))]
   while worklist:
     work_block_idx = worklist.pop()
@@ -60,7 +59,14 @@ def df_defined_vars(cfg, func_args, blocks): #FIXME count |V| from cfg
   # Print results
   for block_idx in range(len(blocks)):
     print(f"bb{block_idx}:") #FIXME pass and print block labels instead
-    print(f"    {', '.join(sorted(list(work_in[block_idx])))}")
+    if not work_in[block_idx]:
+      print(f"  in:  ∅")
+    else:
+      print(f"  in:  {', '.join(sorted(list(work_in[block_idx])))}")
+    if not work_out[block_idx]:
+      print(f"  out: ∅")
+    else:
+      print(f"  out: {', '.join(sorted(list(work_out[block_idx])))}")
 
 
 if __name__ == '__main__':

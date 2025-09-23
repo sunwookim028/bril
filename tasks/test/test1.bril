@@ -1,4 +1,4 @@
-@main() {
+@main(a: int, ck: int) {
   a: int = const 3;
   a: int = id a;
   a: int = const 4;
