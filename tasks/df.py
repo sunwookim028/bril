@@ -58,7 +58,14 @@ def df_defined_vars(cfg, func_args, blocks): #FIXME count |V| from cfg
           worklist.add(v)
   # Print results
   for block_idx in range(len(blocks)):
-    print(f"bb{block_idx}:") #FIXME pass and print block labels instead
+    if not blocks[block_idx]:
+      continue
+    if block_idx == 0:
+      print(f"b1:")
+    elif 'label' in blocks[block_idx][0]:
+      print(f"{blocks[block_idx][0]['label']}:")
+    else:
+      print(f"b_unnamed:")
     if not work_in[block_idx]:
       print(f"  in:  ∅")
     else:
